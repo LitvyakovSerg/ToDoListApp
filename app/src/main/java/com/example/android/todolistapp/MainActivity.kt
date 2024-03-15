@@ -3,10 +3,16 @@ package com.example.android.todolistapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var stubContainer: LinearLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -14,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         // getting the recyclerview by its id
         val recyclerview = findViewById<RecyclerView>(R.id.mainRecyclerView)
+        stubContainer = findViewById(R.id.mainNoItemContainer)
 
         // this creates a vertical layout Manager
         recyclerview.layoutManager = LinearLayoutManager(this)
@@ -30,10 +37,14 @@ class MainActivity : AppCompatActivity() {
         val listSize = data.size
         Log.d("lstag", "list size $listSize")
 
-        if (listSize > 0) {
-
+        if (data.isEmpty()) {
+            Log.d("testingIfElse", "List is empty")
+            stubContainer.visibility = VISIBLE
+            recyclerview.visibility = INVISIBLE
         } else {
-
+            Log.d("testingIfElse", "List is NOT empty")
+            stubContainer.visibility = INVISIBLE
+            recyclerview.visibility = VISIBLE
         }
 
         // This will pass the ArrayList to our Adapter
