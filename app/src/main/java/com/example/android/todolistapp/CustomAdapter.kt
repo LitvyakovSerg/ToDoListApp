@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CustomAdapter(private val mList: List<ToDoItem>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class CustomAdapter(private val mList: MutableList<ToDoItem>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
@@ -30,6 +30,11 @@ class CustomAdapter(private val mList: List<ToDoItem>) : RecyclerView.Adapter<Cu
         holder.description.text = mList[position].description
         holder.number.text = mList[position].number.toString()
 
+    }
+
+    fun addItem(item: ToDoItem) {
+        mList.add(item)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

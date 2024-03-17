@@ -8,10 +8,14 @@ import android.view.View.VISIBLE
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var stubContainer: LinearLayout
+    private lateinit var fab: FloatingActionButton
+    private lateinit var recyclerview : RecyclerView
+    private lateinit var adapter: CustomAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,8 +23,14 @@ class MainActivity : AppCompatActivity() {
         Log.d("lstag", "OnCreate been started")
 
         // getting the recyclerview by its id
-        val recyclerview = findViewById<RecyclerView>(R.id.mainRecyclerView)
+        recyclerview = findViewById(R.id.mainRecyclerView)
         stubContainer = findViewById(R.id.mainNoItemContainer)
+        fab = findViewById(R.id.main_fab)
+
+        fab.setOnClickListener() {
+            adapter.addItem(ToDoItem("NEW TITLE", "IT WORKS!!!", 444))
+            Log.d("clicks", "fab works!!")
+        }
 
         // this creates a vertical layout Manager
         recyclerview.layoutManager = LinearLayoutManager(this)
@@ -48,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // This will pass the ArrayList to our Adapter
-        val adapter = CustomAdapter(data)
+        adapter = CustomAdapter(data)
 
         // Setting the Adapter with the recyclerview
         recyclerview.adapter = adapter
