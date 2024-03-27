@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
         fab = findViewById(R.id.main_fab)
 
         fab.setOnClickListener() {
-            adapter.addItem(ToDoItem("NEW TITLE", "IT WORKS!!!", 444))
-            Log.d("clicks", "fab works!!")
+            val dialog = CustomDialog(this)
+            dialog.show()
         }
 
         // this creates a vertical layout Manager
@@ -63,5 +63,10 @@ class MainActivity : AppCompatActivity() {
         // Setting the Adapter with the recyclerview
         recyclerview.adapter = adapter
         Log.d("lstag", "OnCreate been finished")
+    }
+
+    fun addItem(toString: String) {
+        adapter.addItem(ToDoItem(toString, "IT WORKS!!!", 444))
+//            Log.d("clicks", "fab works!!")
     }
 }
