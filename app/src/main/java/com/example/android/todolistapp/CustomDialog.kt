@@ -10,24 +10,28 @@ import android.widget.EditText
 
 class CustomDialog(var activity: MainActivity) : Dialog(activity), View.OnClickListener {
 
-    var yes: Button? = null
-    var no: Button? = null
-    private lateinit var inputField : EditText
+    private lateinit var okButton: Button
+    private lateinit var cancelButton: Button
+    private lateinit var inputFieldTitle : EditText
+    private lateinit var inputFieldDescription : EditText
+    private lateinit var inputFieldNumber : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_template)
-        inputField = findViewById(R.id.dialogInput)
+        inputFieldTitle = findViewById(R.id.dialog_input_title)
+        inputFieldDescription = findViewById(R.id.dialog_input_description)
+        inputFieldNumber = findViewById(R.id.dialog_input_number)
 
         initViews()
         dialogSizeControl()
     }
 
     private fun initViews() {
-        yes = findViewById<Button>(R.id.dialogOkButton)
-        no = findViewById<Button>(R.id.dialogCancelButton)
-        yes?.setOnClickListener(this)
-        no?.setOnClickListener(this)
+        okButton = findViewById<Button>(R.id.dialog_ok_button)
+        cancelButton = findViewById<Button>(R.id.dialog_cancel_button)
+        okButton.setOnClickListener(this)
+        cancelButton.setOnClickListener(this)
     }
 
     /**
@@ -50,10 +54,10 @@ class CustomDialog(var activity: MainActivity) : Dialog(activity), View.OnClickL
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.dialogOkButton -> {
+            R.id.dialog_ok_button -> {
                 okButtonClicker()
             }
-            R.id.dialogCancelButton -> dismiss()
+            R.id.dialog_cancel_button -> dismiss()
             else -> {
             }
         }
@@ -61,8 +65,11 @@ class CustomDialog(var activity: MainActivity) : Dialog(activity), View.OnClickL
     }
 
     private fun okButtonClicker() {
-        val inputResult = inputField.text
-        activity.addItem(inputResult.toString())
+        val inputTitleResult = inputFieldTitle.text.toString()
+        val inputDescriptionResult = inputFieldDescription.text.toString()
+        val inputNumberResult = inputFieldNumber.text.toString().toInt()
+
+        activity.addItem(ToDoItem(inputTitleResult, inputDescriptionResult, inputNumberResult))
         dismiss()
     }
 }

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         // getting the recyclerview by its id
         recyclerview = findViewById(R.id.mainRecyclerView)
-        stubContainer = findViewById(R.id.mainNoItemContainer)
+        stubContainer = findViewById(R.id.main_no_item_container)
         fab = findViewById(R.id.main_fab)
 
         fab.setOnClickListener() {
@@ -65,8 +65,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("lstag", "OnCreate been finished")
     }
 
-    fun addItem(toString: String) {
-        adapter.addItem(ToDoItem(toString, "IT WORKS!!!", 444))
-//            Log.d("clicks", "fab works!!")
+    fun addItem(item: ToDoItem) {
+        adapter.addItem(item)
     }
 }

@@ -25,7 +25,7 @@ class CustomAdapter(private val mList: MutableList<ToDoItem>) : RecyclerView.Ada
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         // sets the image to the imageview from our itemHolder class
-        //holder.imageView.setImageResource(ItemsViewModel.image)
+
         holder.title.text = mList[position].title
         holder.description.text = mList[position].description
         holder.number.text = mList[position].number.toString()

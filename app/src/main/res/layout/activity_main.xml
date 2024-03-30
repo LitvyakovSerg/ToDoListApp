@@ -16,7 +16,7 @@
         android:src="@drawable/ic_baseline_add_24"/>
 
     <LinearLayout
-        android:id="@+id/mainNoItemContainer"
+        android:id="@+id/main_no_item_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -27,13 +27,13 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:id="@+id/mainNoItemImage"
+            android:id="@+id/main_no_item_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher"/>
 
         <TextView
-            android:id="@+id/mainNoItemLabel"
+            android:id="@+id/main_no_item_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nothing to Do"
