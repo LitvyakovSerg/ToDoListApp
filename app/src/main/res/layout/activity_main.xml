@@ -28,9 +28,9 @@
 
         <ImageView
             android:id="@+id/main_no_item_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_width="128dp"
+            android:layout_height="200dp"
+            android:src="@drawable/list"/>
 
         <TextView
             android:id="@+id/main_no_item_label"

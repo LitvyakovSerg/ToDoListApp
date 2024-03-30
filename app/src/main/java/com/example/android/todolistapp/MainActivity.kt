@@ -40,22 +40,14 @@ class MainActivity : AppCompatActivity() {
 
         // This loop will create 20 Views containing
         // the image with the count of view
-        for (item in 1..15) {
-            data.add(ToDoItem("title", "description", item))
-        }
+//        for (item in 1..15) {
+//            data.add(ToDoItem("title", "description", item))
+//        }
+//
+//        val listSize = data.size
+//        Log.d("lstag", "list size $listSize")
 
-        val listSize = data.size
-        Log.d("lstag", "list size $listSize")
-
-        if (data.isEmpty()) {
-            Log.d("testingIfElse", "List is empty")
-            stubContainer.visibility = VISIBLE
-            recyclerview.visibility = INVISIBLE
-        } else {
-            Log.d("testingIfElse", "List is NOT empty")
-            stubContainer.visibility = INVISIBLE
-            recyclerview.visibility = VISIBLE
-        }
+        stubContainerHide(data)
 
         // This will pass the ArrayList to our Adapter
         adapter = CustomAdapter(data)
@@ -65,7 +57,21 @@ class MainActivity : AppCompatActivity() {
         Log.d("lstag", "OnCreate been finished")
     }
 
+    fun stubContainerHide(data: ArrayList<ToDoItem>) {
+        if (data.isEmpty()) {
+            Log.d("testingIfElse", "List is empty")
+            stubContainer.visibility = VISIBLE
+            recyclerview.visibility = INVISIBLE
+        } else {
+            Log.d("testingIfElse", "List is NOT empty")
+            stubContainer.visibility = INVISIBLE
+            recyclerview.visibility = VISIBLE
+        }
+    }
+
     fun addItem(item: ToDoItem) {
+        stubContainer.visibility = INVISIBLE
+        recyclerview.visibility = VISIBLE
         adapter.addItem(item)
     }
 }
