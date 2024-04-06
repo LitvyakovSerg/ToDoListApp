@@ -69,7 +69,7 @@ class CustomDialog(var activity: MainActivity) : Dialog(activity), View.OnClickL
         val inputDescriptionResult = inputFieldDescription.text.toString()
         val inputNumberResult = inputFieldNumber.text.toString().toInt()
 
-        activity.addItem(ToDoItem(inputTitleResult, inputDescriptionResult, inputNumberResult))
+        activity.addItem(ToDoItem(0,inputTitleResult, inputDescriptionResult, inputNumberResult))
         dismiss()
     }
 }
