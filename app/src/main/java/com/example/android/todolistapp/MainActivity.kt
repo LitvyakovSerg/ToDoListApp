@@ -8,6 +8,8 @@ import android.view.View.VISIBLE
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
+import com.example.android.todolistapp.room.AppDatabase
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -55,6 +57,16 @@ class MainActivity : AppCompatActivity() {
         // Setting the Adapter with the recyclerview
         recyclerview.adapter = adapter
         Log.d("lstag", "OnCreate been finished")
+
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "database-name"
+        )
+            .allowMainThreadQueries()
+            .build()
+
+        val userDao = db.userDao()
+        val users: List<ToDoItem> = userDao.getAllItems()
     }
 
     fun stubContainerHide(data: ArrayList<ToDoItem>) {
