@@ -44,22 +44,8 @@ class MainActivity : AppCompatActivity() {
         // this creates a vertical layout Manager
         recyclerview.layoutManager = LinearLayoutManager(this)
 
-        // ArrayList of class ItemsViewModel
-        val data = ArrayList<ToDoItem>()
-
-        // This loop will create 20 Views containing
-        // the image with the count of view
-//        for (item in 1..15) {
-//            data.add(ToDoItem("title", "description", item))
-//        }
-//
-//        val listSize = data.size
-//        Log.d("lstag", "list size $listSize")
-
-        stubContainerHide(data)
-
         // This will pass the ArrayList to our Adapter
-        adapter = CustomAdapter(data)
+        adapter = CustomAdapter(mutableListOf())
 
         // Setting the Adapter with the recyclerview
         recyclerview.adapter = adapter
@@ -78,21 +64,19 @@ class MainActivity : AppCompatActivity() {
         toDoLiveData.observe(this, Observer {
             adapter.updateList(it)
 
+            if (it.isEmpty()) {
+                Log.d("testingIfElse", "List is empty")
+                stubContainer.visibility = VISIBLE
+                recyclerview.visibility = INVISIBLE
+            } else {
+                Log.d("testingIfElse", "List is NOT empty")
+                stubContainer.visibility = INVISIBLE
+                recyclerview.visibility = VISIBLE
+            }
+
             Log.d("roomcheck", "-> $it")
         })
 
-    }
-
-    fun stubContainerHide(data: ArrayList<ToDoItem>) {
-        if (data.isEmpty()) {
-            Log.d("testingIfElse", "List is empty")
-            stubContainer.visibility = VISIBLE
-            recyclerview.visibility = INVISIBLE
-        } else {
-            Log.d("testingIfElse", "List is NOT empty")
-            stubContainer.visibility = INVISIBLE
-            recyclerview.visibility = VISIBLE
-        }
     }
 
     //№2 отправляем данные в БД
