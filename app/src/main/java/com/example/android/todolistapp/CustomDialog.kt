@@ -64,6 +64,8 @@ class CustomDialog(var activity: MainActivity) : Dialog(activity), View.OnClickL
         dismiss()
     }
 
+    //№2 отправляем данные в БД
+    // 2.1 вытаскиваем данные из полей ввода
     private fun okButtonClicker() {
         val inputTitleResult = inputFieldTitle.text.toString()
         val inputDescriptionResult = inputFieldDescription.text.toString()

@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.LinearLayout
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
@@ -18,6 +20,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fab: FloatingActionButton
     private lateinit var recyclerview : RecyclerView
     private lateinit var adapter: CustomAdapter
+    private lateinit var db: AppDatabase
+
+    //№3 Создаем LiveData для обработки данных
+    private lateinit var toDoLiveData: LiveData<List<ToDoItem>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         stubContainer = findViewById(R.id.main_no_item_container)
         fab = findViewById(R.id.main_fab)
 
+//        №1 Появление диалогового окна для сбора данных
         fab.setOnClickListener() {
             val dialog = CustomDialog(this)
             dialog.show()
@@ -58,15 +65,22 @@ class MainActivity : AppCompatActivity() {
         recyclerview.adapter = adapter
         Log.d("lstag", "OnCreate been finished")
 
-        val db = Room.databaseBuilder(
+        db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "database-name"
         )
             .allowMainThreadQueries()
             .build()
 
-        val userDao = db.userDao()
-        val users: List<ToDoItem> = userDao.getAllItems()
+        toDoLiveData = db.userDao().getAllItems()
+
+        // №4 Отображаем полученные данные в списке
+        toDoLiveData.observe(this, Observer {
+            adapter.updateList(it)
+
+            Log.d("roomcheck", "-> $it")
+        })
+
     }
 
     fun stubContainerHide(data: ArrayList<ToDoItem>) {
@@ -81,9 +95,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //№2 отправляем данные в БД
+    // 2.2 отправка собранных данных в БД
     fun addItem(item: ToDoItem) {
         stubContainer.visibility = INVISIBLE
         recyclerview.visibility = VISIBLE
-        adapter.addItem(item)
+        db.userDao().insertItem(item)
     }
 }

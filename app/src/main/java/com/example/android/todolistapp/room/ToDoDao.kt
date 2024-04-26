@@ -1,5 +1,6 @@
 package com.example.android.todolistapp.room
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -10,7 +11,7 @@ import com.example.android.todolistapp.ToDoItem
 @Dao
 interface ToDoDao {
     @Query("SELECT * FROM todoitem") //Здесь может быть ошибка
-    fun getAllItems(): List<ToDoItem>
+    fun getAllItems(): LiveData<List<ToDoItem>>
 
     @Insert
      fun insertItem(toDoItem: ToDoItem)
