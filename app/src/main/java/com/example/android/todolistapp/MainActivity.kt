@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), OnItemClick {
 
         // №1 Появление диалогового окна для сбора данных
         fab.setOnClickListener() {
-            val dialog = CustomDialog(this, true)
+            val dialog = CustomDialog(this, true, null)
             dialog.show()
         }
 
@@ -89,8 +89,12 @@ class MainActivity : AppCompatActivity(), OnItemClick {
         db.userDao().insertItem(item)
     }
 
+    fun updateItem(item: ToDoItem) {
+        db.userDao().updateItem(item)
+    }
+
     override fun itemClicked(item: ToDoItem) {
-        val dialog = CustomDialog(this, false)
+        val dialog = CustomDialog(this, false, item)
         dialog.show()
        Log.d("itemClicked", "itemClicked $item")
     }

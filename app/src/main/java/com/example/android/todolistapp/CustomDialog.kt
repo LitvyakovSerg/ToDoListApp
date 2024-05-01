@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 
-class CustomDialog(var activity: MainActivity, private val isNewItem: Boolean) : Dialog(activity), View.OnClickListener {
+class CustomDialog(var activity: MainActivity, private val isNewItem: Boolean, private val item: ToDoItem?) : Dialog(activity), View.OnClickListener {
 
     private lateinit var okButton: Button
     private lateinit var cancelButton: Button
@@ -43,6 +43,9 @@ class CustomDialog(var activity: MainActivity, private val isNewItem: Boolean) :
     private fun updateExistingItem() {
         Log.d("dialogTest", "updateExistingItem been called")
         dialogLabel.text = "Update Item"
+        inputFieldTitle.setText(item?.title)
+        inputFieldDescription.setText(item?.description)
+        inputFieldNumber.setText(item?.number.toString())
 
     }
 
@@ -91,11 +94,32 @@ class CustomDialog(var activity: MainActivity, private val isNewItem: Boolean) :
     //№2 отправляем данные в БД
     // 2.1 вытаскиваем данные из полей ввода
     private fun okButtonClicker() {
+        if (isNewItem) {
+            // Если создается новая ячейка, то этот сценарий
+            okNewItemBeenClicked()
+
+        } else {
+            // Если обновляется существующая, то этот
+            okUpdateItemBeenClicked()
+        }
+
+        dismiss()
+    }
+
+    private fun okUpdateItemBeenClicked() {
+        val inputTitleResult = inputFieldTitle.text.toString()
+        val inputDescriptionResult = inputFieldDescription.text.toString()
+        val inputNumberResult = inputFieldNumber.text.toString().toInt()
+
+        item?.id?.let { ToDoItem(it,inputTitleResult, inputDescriptionResult, inputNumberResult) }
+            ?.let { activity.updateItem(it) }
+    }
+
+    private fun okNewItemBeenClicked() {
         val inputTitleResult = inputFieldTitle.text.toString()
         val inputDescriptionResult = inputFieldDescription.text.toString()
         val inputNumberResult = inputFieldNumber.text.toString().toInt()
 
         activity.addItem(ToDoItem(0,inputTitleResult, inputDescriptionResult, inputNumberResult))
-        dismiss()
     }
 }
