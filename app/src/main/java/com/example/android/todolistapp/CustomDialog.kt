@@ -2,19 +2,22 @@ package com.example.android.todolistapp
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 
-class CustomDialog(var activity: MainActivity) : Dialog(activity), View.OnClickListener {
+class CustomDialog(var activity: MainActivity, private val isNewItem: Boolean) : Dialog(activity), View.OnClickListener {
 
     private lateinit var okButton: Button
     private lateinit var cancelButton: Button
     private lateinit var inputFieldTitle : EditText
     private lateinit var inputFieldDescription : EditText
     private lateinit var inputFieldNumber : EditText
+    private lateinit var dialogLabel : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +25,30 @@ class CustomDialog(var activity: MainActivity) : Dialog(activity), View.OnClickL
         inputFieldTitle = findViewById(R.id.dialog_input_title)
         inputFieldDescription = findViewById(R.id.dialog_input_description)
         inputFieldNumber = findViewById(R.id.dialog_input_number)
+        dialogLabel = findViewById(R.id.dialog_label)
+
+        if (isNewItem) {
+           // Если создается новая ячейка, то этот сценарий
+            createNewItem()
+
+        } else {
+           // Если обновляется существующая, то этот
+            updateExistingItem()
+        }
 
         initViews()
         dialogSizeControl()
+    }
+
+    private fun updateExistingItem() {
+        Log.d("dialogTest", "updateExistingItem been called")
+        dialogLabel.text = "Update Item"
+
+    }
+
+    private fun createNewItem() {
+        Log.d("dialogTest", "createNewItem been called")
+
     }
 
     private fun initViews() {

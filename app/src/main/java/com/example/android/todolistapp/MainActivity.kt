@@ -14,7 +14,7 @@ import androidx.room.Room
 import com.example.android.todolistapp.room.AppDatabase
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnItemClick {
 
     private lateinit var stubContainer: LinearLayout
     private lateinit var fab: FloatingActionButton
@@ -35,9 +35,9 @@ class MainActivity : AppCompatActivity() {
         stubContainer = findViewById(R.id.main_no_item_container)
         fab = findViewById(R.id.main_fab)
 
-//        №1 Появление диалогового окна для сбора данных
+        // №1 Появление диалогового окна для сбора данных
         fab.setOnClickListener() {
-            val dialog = CustomDialog(this)
+            val dialog = CustomDialog(this, true)
             dialog.show()
         }
 
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         recyclerview.layoutManager = LinearLayoutManager(this)
 
         // This will pass the ArrayList to our Adapter
-        adapter = CustomAdapter(mutableListOf())
+        adapter = CustomAdapter(mutableListOf(), this)
 
         // Setting the Adapter with the recyclerview
         recyclerview.adapter = adapter
@@ -63,20 +63,22 @@ class MainActivity : AppCompatActivity() {
         // №4 Отображаем полученные данные в списке
         toDoLiveData.observe(this, Observer {
             adapter.updateList(it)
-
-            if (it.isEmpty()) {
-                Log.d("testingIfElse", "List is empty")
-                stubContainer.visibility = VISIBLE
-                recyclerview.visibility = INVISIBLE
-            } else {
-                Log.d("testingIfElse", "List is NOT empty")
-                stubContainer.visibility = INVISIBLE
-                recyclerview.visibility = VISIBLE
-            }
-
+            screenDataValidation(it)
             Log.d("roomcheck", "-> $it")
         })
 
+    }
+
+    private fun screenDataValidation(list: List<ToDoItem>) {
+        if (list.isEmpty()) {
+            Log.d("testingIfElse", "List is empty")
+            stubContainer.visibility = VISIBLE
+            recyclerview.visibility = INVISIBLE
+        } else {
+            Log.d("testingIfElse", "List is NOT empty")
+            stubContainer.visibility = INVISIBLE
+            recyclerview.visibility = VISIBLE
+        }
     }
 
     //№2 отправляем данные в БД
@@ -85,5 +87,11 @@ class MainActivity : AppCompatActivity() {
         stubContainer.visibility = INVISIBLE
         recyclerview.visibility = VISIBLE
         db.userDao().insertItem(item)
+    }
+
+    override fun itemClicked(item: ToDoItem) {
+        val dialog = CustomDialog(this, false)
+        dialog.show()
+       Log.d("itemClicked", "itemClicked $item")
     }
 }
