@@ -111,7 +111,7 @@ class CustomDialog(var activity: MainActivity, private val isNewItem: Boolean, p
         val inputDescriptionResult = inputFieldDescription.text.toString()
         val inputNumberResult = inputFieldNumber.text.toString().toInt()
 
-        item?.id?.let { ToDoItem(it,inputTitleResult, inputDescriptionResult, inputNumberResult) }
+        item?.id?.let { ToDoItem(it, inputTitleResult, inputDescriptionResult, inputNumberResult) }
             ?.let { activity.updateItem(it) }
     }
 
