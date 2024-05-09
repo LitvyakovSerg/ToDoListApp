@@ -1,7 +1,9 @@
 package com.example.android.todolistapp
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
+import android.provider.Settings.Global.getString
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -52,6 +54,15 @@ class CustomDialog(var activity: MainActivity, private val isNewItem: Boolean, p
     private fun createNewItem() {
         Log.d("dialogTest", "createNewItem been called")
 
+        val sharedPref = activity.getPreferences(Context.MODE_PRIVATE)
+        val titleFromPrefs = sharedPref.getString("titleKey", "")
+        val descriptionFromPrefs = sharedPref.getString("descriptionKey", "")
+        val numberFromPrefs = sharedPref.getString("numberKey", "")
+        inputFieldTitle.setText(titleFromPrefs)
+        inputFieldDescription.setText(descriptionFromPrefs)
+        inputFieldNumber.setText(numberFromPrefs)
+        Log.d("prefstesting", "click data $titleFromPrefs | $descriptionFromPrefs | $numberFromPrefs")
+
     }
 
     private fun initViews() {
@@ -59,6 +70,7 @@ class CustomDialog(var activity: MainActivity, private val isNewItem: Boolean, p
         cancelButton = findViewById<Button>(R.id.dialog_cancel_button)
         okButton.setOnClickListener(this)
         cancelButton.setOnClickListener(this)
+
     }
 
     /**
@@ -119,7 +131,29 @@ class CustomDialog(var activity: MainActivity, private val isNewItem: Boolean, p
         val inputTitleResult = inputFieldTitle.text.toString()
         val inputDescriptionResult = inputFieldDescription.text.toString()
         val inputNumberResult = inputFieldNumber.text.toString().toInt()
-
         activity.addItem(ToDoItem(0,inputTitleResult, inputDescriptionResult, inputNumberResult))
+        inputFieldTitle.text.clear()
+        inputFieldDescription.text.clear()
+        inputFieldNumber.text.clear()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (isNewItem) {
+            Log.d("prefstesting", "onStop been called")
+            val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+            with (sharedPref.edit()) {
+                val inputTitleResult = inputFieldTitle.text.toString()
+                val inputDescriptionResult = inputFieldDescription.text.toString()
+                val inputNumberResult = inputFieldNumber.text.toString()
+                putString("titleKey", inputTitleResult)
+                putString("descriptionKey", inputDescriptionResult)
+                putString("numberKey", inputNumberResult)
+                apply()
+                Log.d("prefstesting", "sharedPref is applied")
+            }
+        }
+
     }
 }
