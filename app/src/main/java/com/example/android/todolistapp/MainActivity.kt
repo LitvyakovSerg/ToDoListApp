@@ -14,6 +14,7 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.LinearLayout
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -27,14 +28,16 @@ import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), OnItemClick {
 
+    private val mMainViewModel: MainViewModel by viewModels()
+
     private lateinit var stubContainer: LinearLayout
     private lateinit var fab: FloatingActionButton
     private lateinit var recyclerview : RecyclerView
     private lateinit var adapter: CustomAdapter
-    private lateinit var db: AppDatabase
+//    private lateinit var db: AppDatabase
 
     //№3 Создаем LiveData для обработки данных
-    private lateinit var toDoLiveData: LiveData<List<ToDoItem>>
+//    private lateinit var toDoLiveData: LiveData<List<ToDoItem>>
     private lateinit var data: List<ToDoItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,17 +68,11 @@ class MainActivity : AppCompatActivity(), OnItemClick {
         recyclerview.adapter = adapter
         Log.d("lstag", "OnCreate been finished")
 
-        db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "database-name"
-        )
-            .allowMainThreadQueries()
-            .build()
 
-        toDoLiveData = db.userDao().getAllItems()
-
+//      TODO GET ALL DATA QUERY
+        mMainViewModel.getAllData()
         // №4 Отображаем полученные данные в списке
-        toDoLiveData.observe(this, Observer {
+        mMainViewModel.todoItemListResult.observe(this, Observer {
             data = it
             adapter.updateList(it)
             screenDataValidation(it)
@@ -151,14 +148,16 @@ class MainActivity : AppCompatActivity(), OnItemClick {
                     .setAction(
                         "Undo",
                         View.OnClickListener {
+                            Log.d("snackbarAction", "OnClickListener been called")
                             // adding on click listener to our action of snack bar.
                             // below line is to add our item to array list with a position.
                             data.toMutableList().add(position, deletedToDoItem)
+                            addItem(deletedToDoItem)
 
                             // below line is to notify item is
                             // added to our adapter class.
                             adapter.notifyItemInserted(position)
-                        }).show()
+                       }).show()
                 deleteItem(deletedToDoItem)
             }
             // at last we are adding this
@@ -184,15 +183,18 @@ class MainActivity : AppCompatActivity(), OnItemClick {
     fun addItem(item: ToDoItem) {
         stubContainer.visibility = INVISIBLE
         recyclerview.visibility = VISIBLE
-        db.userDao().insertItem(item)
+        mMainViewModel.insertItem(item)
+
     }
 
     fun updateItem(item: ToDoItem) {
-        db.userDao().updateItem(item)
+        mMainViewModel.updateItem(item)
+
     }
 
     fun deleteItem(item: ToDoItem) {
-        db.userDao().deleteItem(item)
+        mMainViewModel.deleteItem(item)
+
     }
 
 
