@@ -7,13 +7,13 @@ import com.example.android.todolistapp.ToDoItem
 import com.example.android.todolistapp.room.AppDatabase
 
 /**
- * Use to manage work with room
+ * Manager that handles logic with room data base
  */
 
 class RoomManagerImpl(private val context: Context) : RoomManager {
         private var db = Room.databaseBuilder(
             context,
-    AppDatabase::class.java, "database-name"
+    AppDatabase::class.java, DATABASE_NAME
     )
     .allowMainThreadQueries()
     .build()
@@ -34,5 +34,8 @@ class RoomManagerImpl(private val context: Context) : RoomManager {
         db.userDao().deleteItem(item)
     }
 
+    companion object {
+        private const val DATABASE_NAME = "database-name"
+    }
 
 }
