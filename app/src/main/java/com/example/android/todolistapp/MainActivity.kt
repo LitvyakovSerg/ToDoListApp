@@ -167,22 +167,8 @@ class MainActivity : AppCompatActivity(), OnItemClick {
         recyclerView.isVisible = showRecycler
     }
 
-
-//    fun addItem(item: ToDoItem) {
-//        stubContainer.visibility = INVISIBLE
-//        recyclerView.visibility = VISIBLE
-//        mainViewModel.insertItem(item)
-//
-//    }
-//
-//    fun updateItem(item: ToDoItem) {
-//        mainViewModel.updateItem(item)
-//
-//    }
-
-
     override fun itemClicked(item: ToDoItem) {
-        val dialogFragment = CustomDialog(true, null)
+        val dialogFragment = CustomDialog(false, item)
         dialogFragment.show(supportFragmentManager, getString(R.string.custom_dialog))
     }
 }

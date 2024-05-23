@@ -45,7 +45,6 @@ class CustomDialog(
         if (isNewItem) {
             // Если создается новая ячейка, то этот сценарий
             customDialogViewModel.getToDoItemFromPrefs()
-//            createNewItem()
 
         } else {
             // Если обновляется существующая, то этот
@@ -53,7 +52,6 @@ class CustomDialog(
             inputFieldTitle.setText(item?.title)
             inputFieldDescription.setText(item?.description)
             inputFieldNumber.setText(item?.number.toString())
-//            updateExistingItem()
         }
 
         return view
@@ -75,22 +73,6 @@ class CustomDialog(
 
         })
     }
-
-
-//    private fun updateExistingItem() {
-//        Log.d("dialogTest", "updateExistingItem been called")
-//        dialogLabel.text = "Update Item"
-//        inputFieldTitle.setText(item?.title)
-//        inputFieldDescription.setText(item?.description)
-//        inputFieldNumber.setText(item?.number.toString())
-//
-//    }
-//
-//    private fun createNewItem() {
-//        customDialogViewModel.getToDoItemFromPrefs()
-//
-//
-//    }
 
     private fun initViews(view: View) {
         inputFieldTitle = view.findViewById(R.id.dialog_input_title)
@@ -132,7 +114,6 @@ class CustomDialog(
                 elseBeenClicked()
             }
         }
-//        dismiss()
     }
 
     private fun elseBeenClicked() {
@@ -173,7 +154,6 @@ class CustomDialog(
         inputFieldTitle.text.clear()
         inputFieldDescription.text.clear()
         inputFieldNumber.text.clear()
-
     }
 
     override fun onStop() {
@@ -185,7 +165,6 @@ class CustomDialog(
                 customDialogViewModel.saveDataInPrefs(PREFS_TITLE_KEY, inputTitleResult)
                 customDialogViewModel.saveDataInPrefs(PREFS_DESCRIPTION_KEY, inputDescriptionResult)
                 customDialogViewModel.saveDataInPrefs(PREFS_NUMBER_KEY, inputNumberResult)
-
         }
 
     }

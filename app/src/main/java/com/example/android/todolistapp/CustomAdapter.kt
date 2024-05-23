@@ -26,7 +26,7 @@ class CustomAdapter(private var mList: MutableList<ToDoItem>, private val click:
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        // sets the image to the imageview from our itemHolder class
+        // sets the text to the textview from our itemHolder class
 
         holder.title.text = mList[position].title
         holder.description.text = mList[position].description
