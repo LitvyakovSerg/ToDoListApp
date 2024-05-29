@@ -2,40 +2,38 @@ package com.example.android.todolistapp.data
 
 import android.content.Context
 import androidx.room.Room
-import com.example.android.todolistapp.RoomManager
+import com.example.android.todolistapp.RoomRepository
 import com.example.android.todolistapp.ToDoItem
 import com.example.android.todolistapp.room.AppDatabase
+import com.example.android.todolistapp.room.ToDoDao
+import javax.inject.Inject
 
 /**
  * Manager that handles logic with room data base
  */
 
-class RoomManagerImpl(private val context: Context) : RoomManager {
-        private var db = Room.databaseBuilder(
-            context,
-    AppDatabase::class.java, DATABASE_NAME
-    )
-    .allowMainThreadQueries()
-    .build()
+class RoomRepositoryImpl @Inject constructor(
+    private val toDoDao: ToDoDao
+    ) : RoomRepository {
 
     override fun getAllItems() : List<ToDoItem> {
-        return db.userDao().getAllItems()
+        return toDoDao.getAllItems()
     }
 
     override fun insertItem(item: ToDoItem) {
-        db.userDao().insertItem(item)
+        toDoDao.insertItem(item)
     }
 
     override fun updateItem(item: ToDoItem) {
-        db.userDao().updateItem(item)
+        toDoDao.updateItem(item)
     }
 
     override fun deleteItem(item: ToDoItem) {
-        db.userDao().deleteItem(item)
+        toDoDao.deleteItem(item)
     }
 
     companion object {
-        private const val DATABASE_NAME = "database-name"
+        const val DATABASE_NAME = "database-name"
     }
 
 }

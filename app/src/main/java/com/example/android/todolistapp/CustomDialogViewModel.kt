@@ -4,12 +4,16 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.android.todolistapp.data.PrefsManagerImpl
+import androidx.lifecycle.ViewModel
+import com.example.android.todolistapp.data.PrefsRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CustomDialogViewModel(app: Application) : AndroidViewModel(app) {
+@HiltViewModel
+class CustomDialogViewModel @Inject constructor (
+    private val prefsRepository: PrefsRepository
+        ) : ViewModel() {
 
-    private val prefsManager: PrefsManager = PrefsManagerImpl(app)
-    
     private val todoItem: MutableLiveData<ToDoItem> = MutableLiveData()
     val todoItemResult: LiveData<ToDoItem> = todoItem
 
@@ -18,7 +22,7 @@ class CustomDialogViewModel(app: Application) : AndroidViewModel(app) {
      */
 
     fun getToDoItemFromPrefs() {
-        val result = prefsManager.getTodoItem()
+        val result = prefsRepository.getTodoItem()
         todoItem.postValue(result)
     }
 
@@ -29,7 +33,7 @@ class CustomDialogViewModel(app: Application) : AndroidViewModel(app) {
      */
 
     fun saveDataInPrefs(key: String, value: String) {
-        prefsManager.saveDataInPrefs(key, value)
+        prefsRepository.saveDataInPrefs(key, value)
     }
 
 }

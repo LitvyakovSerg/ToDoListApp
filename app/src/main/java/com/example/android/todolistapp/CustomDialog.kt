@@ -2,7 +2,6 @@ package com.example.android.todolistapp
 
 import android.app.ActionBar
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
@@ -10,13 +9,13 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.example.android.todolistapp.data.PrefsManagerImpl.Companion.PREFS_DESCRIPTION_KEY
-import com.example.android.todolistapp.data.PrefsManagerImpl.Companion.PREFS_NUMBER_KEY
-import com.example.android.todolistapp.data.PrefsManagerImpl.Companion.PREFS_TITLE_KEY
+import com.example.android.todolistapp.data.PrefsRepositoryImpl.Companion.PREFS_DESCRIPTION_KEY
+import com.example.android.todolistapp.data.PrefsRepositoryImpl.Companion.PREFS_NUMBER_KEY
+import com.example.android.todolistapp.data.PrefsRepositoryImpl.Companion.PREFS_TITLE_KEY
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class CustomDialog(
-//    var activity: MainActivity,
     private val isNewItem: Boolean,
     private val item: ToDoItem?
     ) : DialogFragment(), View.OnClickListener {

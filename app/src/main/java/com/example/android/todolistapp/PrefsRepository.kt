@@ -1,6 +1,6 @@
 package com.example.android.todolistapp
 
-interface PrefsManager {
+interface PrefsRepository {
 
     /**
      * Return todo item from prefs

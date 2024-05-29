@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -31,6 +32,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {
@@ -52,4 +57,15 @@ dependencies {
     // For control over item selection of both touch and mouse driven selection
     implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
     implementation 'androidx.fragment:fragment-ktx:1.1.0'
+
+    //Hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+    //Test
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.7.10"
+    // Optional -- Mockito framework
+    testImplementation "org.mockito:mockito-core:5.1.1"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+
 }
