@@ -1,6 +1,6 @@
 package com.example.android.todolistapp
 
-interface RoomManager {
+interface RoomRepository {
 
     fun getAllItems(): List<ToDoItem>
     fun insertItem(item: ToDoItem)

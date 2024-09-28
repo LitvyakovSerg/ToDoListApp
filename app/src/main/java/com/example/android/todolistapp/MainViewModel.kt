@@ -4,11 +4,15 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.android.todolistapp.data.RoomManagerImpl
+import androidx.lifecycle.ViewModel
+import com.example.android.todolistapp.data.RoomRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainViewModel(app: Application) : AndroidViewModel(app) {
-
-    private val roomManager: RoomManager = RoomManagerImpl(app)
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val roomRepository: RoomRepository
+) : ViewModel() {
 
     private val todoItemList: MutableLiveData<List<ToDoItem>> = MutableLiveData()
     val todoItemListResult: LiveData<List<ToDoItem>> = todoItemList
@@ -18,8 +22,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
      */
 
     fun getAllData() {
-        //TODO deliver data to view layer
-        val result = roomManager.getAllItems()
+        val result = roomRepository.getAllItems()
         todoItemList.postValue(result)
     }
 
@@ -31,7 +34,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     fun insertItem(item: ToDoItem) {
         todoItemList.value.let {
             todoItemList.postValue(it?.plus(item))
-            roomManager.insertItem(item)
+            roomRepository.insertItem(item)
         }
 
     }
@@ -58,7 +61,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     fun deleteItem(item: ToDoItem) {
         todoItemList.value.let {
             todoItemList.postValue(it?.minus(item))
-            roomManager.deleteItem(item)
+            roomRepository.deleteItem(item)
         }
 
     }
