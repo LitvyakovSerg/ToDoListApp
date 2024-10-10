@@ -11,7 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.example.android.todolistapp.data.PrefsManagerImpl.Companion.PREFS_DESCRIPTION_KEY
-import com.example.android.todolistapp.data.PrefsManagerImpl.Companion.PREFS_NUMBER_KEY
+//import com.example.android.todolistapp.data.PrefsManagerImpl.Companion.PREFS_NUMBER_KEY
 import com.example.android.todolistapp.data.PrefsManagerImpl.Companion.PREFS_TITLE_KEY
 
 
@@ -29,7 +29,7 @@ class CustomDialog(
 
     private lateinit var inputFieldTitle: EditText
     private lateinit var inputFieldDescription : EditText
-    private lateinit var inputFieldNumber : EditText
+//    private lateinit var inputFieldNumber : EditText
     private lateinit var dialogLabel : TextView
 
     override fun onCreateView(
@@ -51,7 +51,7 @@ class CustomDialog(
             dialogLabel.text = getString(R.string.update_item)
             inputFieldTitle.setText(item?.title)
             inputFieldDescription.setText(item?.description)
-            inputFieldNumber.setText(item?.number.toString())
+//            inputFieldNumber.setText(item?.number.toString())
         }
 
         return view
@@ -68,7 +68,7 @@ class CustomDialog(
             if (isNewItem) {
                 inputFieldTitle.setText(it.title)
                 inputFieldDescription.setText(it.description)
-                inputFieldNumber.setText(it.number)
+//                inputFieldNumber.setText(it.number)
             }
 
         })
@@ -77,7 +77,7 @@ class CustomDialog(
     private fun initViews(view: View) {
         inputFieldTitle = view.findViewById(R.id.dialog_input_title)
         inputFieldDescription = view.findViewById(R.id.dialog_input_description)
-        inputFieldNumber = view.findViewById(R.id.dialog_input_number)
+//        inputFieldNumber = view.findViewById(R.id.dialog_input_number)
         dialogLabel = view.findViewById(R.id.dialog_label)
         okButton = view.findViewById<Button>(R.id.dialog_ok_button)
         cancelButton = view.findViewById<Button>(R.id.dialog_cancel_button)
@@ -138,22 +138,22 @@ class CustomDialog(
     private fun okUpdateItemBeenClicked() {
         val inputTitleResult = inputFieldTitle.text.toString()
         val inputDescriptionResult = inputFieldDescription.text.toString()
-        val inputNumberResult = inputFieldNumber.text.toString()
+//        val inputNumberResult = inputFieldNumber.text.toString()
 //        val inputNumberResult = inputFieldNumber.text.toString().toInt()
 
-        item?.id?.let { ToDoItem(it, inputTitleResult, inputDescriptionResult, inputNumberResult) }
+        item?.id?.let { ToDoItem(it, inputTitleResult, inputDescriptionResult) }
             ?.let { mainViewModel.updateItem(it) }
     }
 
     private fun okNewItemBeenClicked() {
         val inputTitleResult = inputFieldTitle.text.toString()
         val inputDescriptionResult = inputFieldDescription.text.toString()
-        val inputNumberResult = inputFieldNumber.text.toString()
+//        val inputNumberResult = inputFieldNumber.text.toString()
 //        val inputNumberResult = inputFieldNumber.text.toString().toInt()
-        mainViewModel.insertItem(ToDoItem(0,inputTitleResult, inputDescriptionResult, inputNumberResult))
+        mainViewModel.insertItem(ToDoItem(0,inputTitleResult, inputDescriptionResult))
         inputFieldTitle.text.clear()
         inputFieldDescription.text.clear()
-        inputFieldNumber.text.clear()
+//        inputFieldNumber.text.clear()
     }
 
     override fun onStop() {
@@ -161,10 +161,10 @@ class CustomDialog(
         if (isNewItem) {
                 val inputTitleResult = inputFieldTitle.text.toString()
                 val inputDescriptionResult = inputFieldDescription.text.toString()
-                val inputNumberResult = inputFieldNumber.text.toString()
+//                val inputNumberResult = inputFieldNumber.text.toString()
                 customDialogViewModel.saveDataInPrefs(PREFS_TITLE_KEY, inputTitleResult)
                 customDialogViewModel.saveDataInPrefs(PREFS_DESCRIPTION_KEY, inputDescriptionResult)
-                customDialogViewModel.saveDataInPrefs(PREFS_NUMBER_KEY, inputNumberResult)
+//                customDialogViewModel.saveDataInPrefs(PREFS_NUMBER_KEY, inputNumberResult)
         }
 
     }

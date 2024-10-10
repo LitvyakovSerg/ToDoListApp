@@ -9,5 +9,5 @@ data class ToDoItem(
     @PrimaryKey (autoGenerate = true) val id: Int,
     @ColumnInfo(name = "titleColumn") val title: String,
     val description: String,
-    val number: String
+//    val number: String
 )
